@@ -20,11 +20,9 @@ def check_ok(url):
 		bs4object=bs(html.read(),'html.parser')
 	return bs4object
 	
-def check_tag(bs4,ser):
+def check_tag(bs4,search_tag,search_class):
 	try:
-		tag=bs4.find(ser)
-		print(dir(tag))
-		print(tag)
+		tag=bs4.findAll(search_tag,{"class":search_class})
 	except AttributeError as e:
 		return None
 	return tag
@@ -33,9 +31,10 @@ connect=check_ok(url)
 
 if connect:
 
-	tag=check_tag(connect,'img')
+	tag=check_tag(connect,'div','item')
 	if tag:
-		print(tag)
+		for item in tag:
+			print(item.get_text())
 	else:
 		print("tag not found")
 else:
